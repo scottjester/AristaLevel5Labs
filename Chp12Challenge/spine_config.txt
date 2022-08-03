@@ -5,7 +5,10 @@
 
 service routing protocols model multi-agent
 ip prefix-list LOOPBACK
-# Include the loopback ranges for each DC here
+  192.168.101.0/24
+  192.168.102.0/24
+  192.168.201.0/24
+  192.168.202.0/24
 route-map LOOPBACK permit 10
   match ip address prefix-list LOOPBACK
 peer-filter LEAF-AS-RANGE
