@@ -35,7 +35,7 @@ print("ip prefix-list LOOPBACK")
 #prefix-list loop
 pl = ['192.168.101.0/24', '192.168.102.0/24', '192.168.201.0/24', '192.168.202.0/24']
 for ip in pl:
-    print (ip)
+    print(" permit %s" % ip)
 print("route-map LOOPBACK permit 10")
 print(" match ip address prefix-list LOOPBACK")
 print("peer-filter LEAF-AS-RANGE")
@@ -45,8 +45,7 @@ bgpasn = switches['Spine1-DC1']['bgp']['asn']
 print("router bgp %s" % bgpasn)
 #Loopback0 IP  
 ip = switches['Spine1-DC1']['interfaces']['loopback0']['ipv4']
-mask = switches['Spine1-DC1']['interfaces']['loopback0']['mask']
-print(" router-id %s/%s" % (ip, mask))
+print(" router-id %s" % ip )
 print(" no bgp default ipv4-unicast")
 print(" maximum-paths 3")
 print(" distance bgp 20 200 200")
