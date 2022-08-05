@@ -1,4 +1,6 @@
 import yaml
+from cvplibrary import CVPGlobalVariables, GlobalVariableNames
+hostname = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_SERIAL)
 config = """
 Leaf1-DC1:
   interfaces:
@@ -27,7 +29,6 @@ Leaf1-DC1:
 
 switches = yaml.safe_load(config)
 
-
 print("ip prefix-list LOOPBACK")
 #prefix-list loop
 pl = ['192.168.101.0/24', '192.168.102.0/24', '192.168.201.0/24', '192.168.202.0/24']
@@ -36,10 +37,10 @@ for ip in pl:
 print('route-map LOOPBACK permit 10')
 print(' match ip address prefix-list LOOPBACK')
 #BGP ASN
-bgpasn = switches['Leaf1-DC1']['bgp']['asn']
+bgpasn = switches[hostname]['bgp']['asn']
 print("router bgp %s" % bgpasn)
 #Loopback0 IP  
-ip = switches['Leaf1-DC1']['interfaces']['loopback0']['ipv4']
+ip = switches[hostname]['interfaces']['loopback0']['ipv4']
 print(" router-id %s" % ip )
 print(' no bgp default ipv4-unicast')
 print(' maximum-paths 3')
