@@ -1,0 +1,11 @@
+- hosts: spine1-DC1
+  gather_facts: no
+  tasks:
+    - name: Register variables
+      include_vars:
+        file: "{{lookup('env','PWD')}}/vars/lab_vars.yml"
+        name: underlay
+    - name: Create a configuration for spine1-DC1
+      template:
+        src: "{{lookup('env','PWD')}}/templates/spine1_dc1.j2"
+        dest: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}.cfg"
