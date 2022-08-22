@@ -1,37 +1,46 @@
-{%- for int in interfaces %}
+#jinja2: trim_blocks:False
+{%- for int in underlay[inventory_hostname]['interfaces'] %}
 {%- if 'loopback' not in int %}
 interface {{ int }}
-   ip address {{ interfaces[int]['ipv4'] }}/31
+   ip address {{ underlay[inventory_hostname]['interfaces'][int]['ipv4'] }}/31
    no switchport
    mtu 9214
 !
 {%- endif %}
 {%- if 'loopback' in int %}
 interface {{ int }}
-   ip address {{ interfaces[int]['ipv4'] }}/32
+   ip address {{ underlay[inventory_hostname]['interfaces'][int]['ipv4'] }}/32
 !
 {%- endif %}
 {%- endfor %}  
-ip prefix-list LOOPBACK seq 10 permit {{ interfaces['loopback0']['ipv4'] }}/32 eq 32
-ip prefix-list LOOPBACK seq 20 permit {{ interfaces['loopback1']['ipv4'] }}/32 eq 32
+ip prefix-list LOOPBACK seq 10 permit {{ underlay[inventory_hostname]['interfaces']['loopback0']['ipv4'] }}/32 eq 32
+ip prefix-list LOOPBACK seq 20 permit {{ underlay[inventory_hostname]['interfaces']['loopback1']['ipv4'] }}/32 eq 32
 !
 route-map LOOPBACK permit 10
    match ip address prefix-list LOOPBACK
 !
-router bgp {{ asn }}
-   router-id {{ interfaces['loopback0']['ipv4'] }}
+router bgp {{ underlay[inventory_hostname]['asn'] }}
+   router-id {{ underlay[inventory_hostname]['interfaces']['loopback0']['ipv4'] }}
    no bgp default ipv4-unicast
    maximum-paths 3
    distance bgp 20 200 200
    neighbor SPINE_Underlay peer group
-   neighbor SPINE_Underlay remote-as {{ spine_asn }}
+   {%- for spineasn in underlay[inventory_hostname] %}
+   {%- if 'spine' in spineasn %}
+   neighbor SPINE_Underlay remote-as {{ underlay[inventory_hostname][asn] }}
+   {%- endif %}
+   {%- endfor %}
    neighbor SPINE_Underlay send-community
    neighbor SPINE_Underlay maximum-routes 12000
    neighbor LEAF_Peer peer group
-   neighbor LEAF_Peer remote-as {{ asn }}
+   {%- for leafasn in underlay[inventory_hostname] %}
+   {%- if 'leaf' in leafasn %}
+   neighbor LEAF_Peer remote-as {{ underlay[inventory_hostname][asn] }}
+   {%- endif %}
+   {%- endfor %}   
    neighbor LEAF_Peer next-hop-self
    neighbor LEAF_Peer maximum-routes 12000
-   {%- for peer in spine_peers %}
+   {%- for peer in underlay[inventory_hostname][spine_peers] %}
    neighbor {{ peer }} peer group SPINE_Underlay
    {%- endfor %}
    redistribute connected route-map LOOPBACK
