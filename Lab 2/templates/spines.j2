@@ -1,0 +1,39 @@
+{# This is the spine template #}
+{# This is for EVPN #}
+
+service routing protocols model multi-agent
+
+{# This section is static, no need to modify#}
+
+ip prefix-list LOOPBACK
+    seq 10 permit 10.1.0.0/24 eq 32
+    seq 20 permit 10.1.1.0/24 eq 32
+    seq 30 permit 10.2.0.0/24 eq 32
+    seq 40 permit 10.2.1.0/24 eq 32
+
+route-map LOOPBACK permit 10
+   match ip address prefix-list LOOPBACK
+   
+{# This part is static #}
+peer-filter LEAF-AS-RANGE
+  10 match as-range 65000-65535 result accept
+
+{# Pull the ASN and router-id from the underlay.yml file #}
+
+router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
+   router-id {{ underlay[inventory_hostname]['interfaces']['loopback0']['ipv4'] }}
+   no bgp default ipv4-unicast
+   maximum-paths 3
+   distance bgp 20 200 200
+
+
+  bgp listen range 10.0.0.0/8 peer-group LEAF_Underlay peer-filter LEAF-AS-RANGE
+  neighbor LEAF_Underlay peer group
+  neighbor LEAF_Underlay send-community
+  neighbor LEAF_Underlay maximum-routes 12000
+  redistribute connected route-map LOOPBACK
+  address-family ipv4
+    neighbor LEAF_Underlay activate
+    redistribute connected route-map LOOPBACK
+
+

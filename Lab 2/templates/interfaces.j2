@@ -1,0 +1,10 @@
+{# Use a for loop to configure all interfaces listed in underlay.yml #}
+{# If the interface is an Ethernet interface, use MTU of 9214 and make sure to include "no switchport" #}
+{%- for item in underlay[inventory_hostname]['interfaces'] %}
+interface {{ item }}
+  ip address {{ underlay[inventory_hostname]['interfaces'][item]['ipv4']}}/{{ underlay[inventory_hostname]['interfaces'][item]['mask']}}
+{% if 'Ethernet' in item %}
+  no switchport
+  mtu 9214
+{% endif %}
+{% endfor %}

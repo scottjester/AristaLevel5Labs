@@ -1,0 +1,16 @@
+# This playbook is to be used to generate leaf MP-BGP config with variables from underlay.yml
+
+
+---
+- hosts: leafs_DC2
+  gather_facts: no
+  tasks:
+  - name: Register variables (candidates- Do not change this)
+    include_vars:
+      file: "{{lookup('env','PWD')}}/vars/underlay.yml"
+      name: underlay
+  - name: Create template
+    template:
+      src: "{{lookup('env','PWD')}}/templates/leaf.j2"
+      dest: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}_leaf.cfg"
+# Use the eos_config module to create a task to upload the configuration you created to the switch
