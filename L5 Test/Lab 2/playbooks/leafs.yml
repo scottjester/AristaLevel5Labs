@@ -2,7 +2,7 @@
 
 
 ---
-- hosts: leaf1-DC2
+- hosts: leafs_DC2
   gather_facts: no
   tasks:
   - name: Register variables (candidates- Do not change this)
