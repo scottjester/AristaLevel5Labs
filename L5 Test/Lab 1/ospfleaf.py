@@ -95,7 +95,7 @@ print("interface loopback0")
 print(" ip address %s/%s" % (l0, l0mask))
 l1 = switches[hostname]['loopback1']['ipv4']
 l1mask = switches[hostname]['loopback1']['mask']
-print("interface loopback0")
+print("interface loopback1")
 print(" ip address %s/%s" % (l1, l1mask))
 rid = switches[hostname]['loopback0']['ipv4']
 print("router ospf 100")
