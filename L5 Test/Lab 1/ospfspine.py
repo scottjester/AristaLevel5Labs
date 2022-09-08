@@ -27,13 +27,12 @@ spine3-DC2:
     ipv4: 192.168.201.103
     mask: 32          
 """
-
 switches = yaml.safe_load(config)
 
-
-ip = switches[hostname]['loopback0']['ipv4']
-mask = switches[hostname]['loopback0']['ipv4']['mask']
+l0 = switches[hostname]['loopback0']['ipv4']
+l0mask = switches[hostname]['loopback0']['mask']
 print("interface loopback0")
-print("ip address %s/%s") % ip % mask
+print(" ip address %s/%s" % (l0, l0mask))
+rid = switches[hostname]['loopback0']['ipv4']
 print("router ospf 100")
-print(" router-id %s") % ip
+print(" router-id %s") % rid
