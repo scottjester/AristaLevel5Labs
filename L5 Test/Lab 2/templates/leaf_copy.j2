@@ -27,24 +27,18 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
 
 
    neighbor SPINE_Underlay peer group
-   neighbor SPINE_Underlay remote-as 65100
+  
+   neighbor SPINE_Underlay remote-as {# The ASN of the spines from the underlay.yml file #}
    neighbor SPINE_Underlay send-community
    neighbor SPINE_Underlay maximum-routes 12000
 
 {# This is the connection to the leaf peer #}
 
    neighbor LEAF_Peer peer group
-   neighbor LEAF_Peer remote-as {{ underlay[inventory_hostname]['BGP']['ASN'] }}
+   neighbor LEAF_Peer remote-as {# The ASN of the other leaf in the MLAG pair #}}
    neighbor LEAF_Peer next-hop-self
    neighbor LEAF_Peer maximum-routes 12000
-{%- for item in underlay[inventory_hostname]['interfaces'] %}
-interface {{ item }}
-  ip address {{ underlay[inventory_hostname]['interfaces'][item]['ipv4']}}/{{ underlay[inventory_hostname]['interfaces'][item]['mask']}}
-{% if 'Ethernet' in item %}
-  no switchport
-  mtu 9214
-{% endif %}
-{% endfor %}
+
 
 {# This must be a loop, preferably a "for" loop, to put the neighbor relationships in #}
 
