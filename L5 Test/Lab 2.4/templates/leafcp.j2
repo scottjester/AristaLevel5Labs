@@ -1,0 +1,47 @@
+interface vxlan1
+  vxlan source-interface Loopback1
+  vxlan udp-port 4789
+  vxlan vrf red vni {{ underlay['tenants']['red']['l3vni'] }}
+  vxlan vrf blue vni {{ underlay['tenants']['blue']['l3vni'] }}
+  vxlan vlan {{ underlay['tenants']['red']['l2vni']['dmz']['vlan'] }} vni {{ underlay['tenants']['red']['l2vni']['dmz'['vni'] }}
+  vxlan vlan {{ underlay['tenants']['red']['l2vni']['internal']['vlan'] }} vni {{ underlay['tenants']['red']['l2vni']['internal'['vni'] }}
+  vxlan vlan {{ underlay['tenants']['blue']['l2vni']['dmz']['vlan'] }} vni {{ underlay['tenants']['blue']['l2vni']['dmz'['vni'] }}
+  vxlan vlan {{ underlay['tenants']['blue']['l2vni']['internal']['vlan'] }} vni {{ underlay['tenants']['blue']['l2vni']['internal'['vni'] }} 
+!
+router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
+  vrf red
+    rd {{ underlay[inventory_hostname]['interfaces']['loopback1']['ipv4'] }}:{{ underlay['tenants']['red']['l3vni'] }}
+    route-target import evpn {{ underlay['tenants']['red']['l3vni'] }}:{{ underlay['tenants']['red']['l3vni'] }}
+    route-target export evpn {{ underlay['tenants']['red']['l3vni'] }}:{{ underlay['tenants']['red']['l3vni'] }}
+  vrf blue
+    rd {{ underlay[inventory_hostname]['interfaces']['loopback1']['ipv4'] }}:{{ underlay['tenants']['blue']['l3vni'] }}
+    route-target import evpn {{ underlay['tenants']['blue']['l3vni'] }}:{{ underlay['tenants']['blue']['l3vni'] }}
+    route-target export evpn {{ underlay['tenants']['blue']['l3vni'] }}:{{ underlay['tenants']['blue']['l3vni'] }}    
+  vlan {{ underlay['tenants']['red']['l2vni']['dmz']['vlan']}}
+    rd auto
+    route-target both {{ underlay['tenants']['red']['l2vni']['dmz']['vni']}}:{{ underlay['tenants']['red']['l2vni']['dmz']['vni']}}
+    redistribute learned
+  vlan {{ underlay['tenants']['red']['l2vni']['internal']['vlan']}}
+    rd auto
+    route-target both {{ underlay['tenants']['red']['l2vni']['internal']['vni']}}:{{ underlay['tenants']['red']['l2vni']['internal']['vni']}}
+    redistribute learned
+  vlan {{ underlay['tenants']['blue']['l2vni']['dmz']['vlan']}}
+    rd auto
+    route-target both {{ underlay['tenants']['blue']['l2vni']['dmz']['vni']}}:{{ underlay['tenants']['blue']['l2vni']['dmz']['vni']}}
+    redistribute learned
+  vlan {{ underlay['tenants']['blue']['l2vni']['internal']['vlan']}}
+    rd auto
+    route-target both {{ underlay['tenants']['blue']['l2vni']['internal']['vni']}}:{{ underlay['tenants']['blue']['l2vni']['internal']['vni']}}
+    redistribute learned      
+!
+interface vlan {{ underlay['tenants']['red']['l2vni']['dmz']['vlan']}}
+  ip address virtual {{ underlay['tenants']['red']['l2vni']['dmz']['irbv4']}}
+!  
+interface vlan {{ underlay['tenants']['red']['l2vni']['internal']['vlan']}}
+  ip address virtual {{ underlay['tenants']['red']['l2vni']['internal']['irbv4']}}
+!
+interface vlan {{ underlay['tenants']['blue']['l2vni']['dmz']['vlan']}}
+  ip address virtual {{ underlay['tenants']['blue']['l2vni']['dmz']['irbv4']}}
+!  
+interface vlan {{ underlay['tenants']['blue']['l2vni']['internal']['vlan']}}
+  ip address virtual {{ underlay['tenants']['blue']['l2vni']['internal']['irbv4']}}

@@ -1,0 +1,298 @@
+## DO NOT MODIFY THIS FILE
+global:
+  DC1:
+    spine_ASN: 65100
+  DC2:
+    spine_ASN: 65200
+  MTU: 9214
+  interfaces:
+    loopback0: 
+      ipv4: 10.1.0.22
+      mask: 32
+    loopback1: 
+      ipv4: 10.1.1.21
+      mask: 32
+    Ethernet3: 
+      ipv4: 10.1.2.30
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.1.2.32
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.1.2.34
+      mask: 31
+    Ethernet12:
+      ipv4: 192.168.254.2
+      mask: 31
+  BGP:
+    ASN: 65103
+    spine-peers:
+      - 10.1.2.31
+      - 10.1.2.33
+      - 10.1.2.35
+    spine-ASN: 65100
+    DCI-peers:
+      - 192.168.254.3
+  MLAG: Even
+spine1-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.101
+      mask: 32
+    Ethernet2: 
+      ipv4: 10.2.2.1
+      mask: 31
+    Ethernet3: 
+      ipv4: 10.2.2.7
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.13
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.19
+      mask: 31
+    Ethernet6: 
+      ipv4: 10.2.2.25
+      mask: 31
+    Ethernet7: 
+      ipv4: 10.2.2.31
+      mask: 31
+  BGP:
+    ASN: 65200
+spine2-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.102
+      mask: 32
+    Ethernet2: 
+      ipv4: 10.2.2.3
+      mask: 31
+    Ethernet3: 
+      ipv4: 10.2.2.9
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.15
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.21
+      mask: 31
+    Ethernet6: 
+      ipv4: 10.2.2.27
+      mask: 31
+    Ethernet7: 
+      ipv4: 10.2.2.33
+      mask: 31
+  BGP:
+    ASN: 65200
+spine3-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.103
+      mask: 32
+    Ethernet2: 
+      ipv4: 10.2.2.5
+      mask: 31
+    Ethernet3: 
+      ipv4: 10.2.2.11
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.17
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.23
+      mask: 31
+    Ethernet6: 
+      ipv4: 10.2.2.29
+      mask: 31
+    Ethernet7: 
+      ipv4: 10.2.2.35
+      mask: 31
+  BGP:
+    ASN: 65200
+leaf1-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.11
+      mask: 32
+    loopback1: 
+      ipv4: 10.2.1.11
+      mask: 32
+    Ethernet3:
+      ipv4: 10.2.2.0
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.2
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.4
+      mask: 31
+  BGP: 
+    ASN: 65201
+    spine-peers:
+      - 10.2.2.1
+      - 10.2.2.3
+      - 10.2.2.5
+    spine-ASN: 65200
+  MLAG: Odd
+leaf2-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.12
+      mask: 32
+    loopback1: 
+      ipv4: 10.2.1.11
+      mask: 32
+    Ethernet3:
+      ipv4: 10.2.2.6
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.8
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.10
+      mask: 31
+  BGP: 
+    ASN: 65201
+    spine-peers:
+      - 10.2.2.7
+      - 10.2.2.9
+      - 10.2.2.11
+    spine-ASN: 65200
+  MLAG: Even
+leaf3-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.13
+      mask: 32
+    loopback1: 
+      ipv4: 10.2.1.13
+      mask: 32
+    Ethernet3: 
+      ipv4: 10.2.2.12
+      mask: 31
+    Ethernet4:
+      ipv4: 10.2.2.14
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.16
+      mask: 31
+  BGP:
+    ASN: 65202
+    spine-peers:
+      - 10.2.2.13
+      - 10.2.2.15
+      - 10.2.2.17
+    spine-ASN: 65200
+  MLAG: Odd
+leaf4-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.14
+      mask: 32
+    loopback1: 
+      ipv4: 10.2.1.13
+      mask: 32
+    Ethernet3: 
+      ipv4: 10.2.2.18
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.20
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.22
+      mask: 31
+  BGP:
+    ASN: 65202
+    spine-peers:
+      - 10.2.2.19
+      - 10.2.2.21
+      - 10.2.2.23
+    spine-ASN: 65200
+  MLAG: Even
+borderleaf1-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.21
+      mask: 32
+    loopback1: 
+      ipv4: 10.2.1.21
+      mask: 32
+    Ethernet3: 
+      ipv4: 10.2.2.24
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.26
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.28
+      mask: 31
+    Ethernet12:
+      ipv4: 192.168.254.4
+      mask: 31
+  BGP:
+    ASN: 65203
+    spine-peers:
+      - 10.2.2.25
+      - 10.2.2.27
+      - 10.2.2.29
+    spine-ASN: 65200
+    DCI-peers:
+      - 192.168.254.5
+  MLAG: Odd
+borderleaf2-DC2:
+  interfaces:
+    loopback0: 
+      ipv4: 10.2.0.22
+      mask: 32
+    loopback1: 
+      ipv4: 10.2.1.21
+      mask: 32
+    Ethernet3: 
+      ipv4: 10.2.2.30
+      mask: 31
+    Ethernet4: 
+      ipv4: 10.2.2.32
+      mask: 31
+    Ethernet5: 
+      ipv4: 10.2.2.34
+      mask: 31
+    Ethernet12:
+      ipv4: 192.168.254.6
+      mask: 31
+  BGP:
+    ASN: 65203
+    spine-peers:
+      - 10.2.2.31
+      - 10.2.2.33
+      - 10.2.2.35
+    spine-ASN: 65200
+    DCI-peers:
+    - 192.168.254.7
+  MLAG: Even
+tenants:
+  red:
+    l3vni: 10000
+    l2vni:
+      dmz:
+        vni: 10001
+        vlan: 101
+        irbv4: 10.10.10.1
+        irbmask: 24
+      internal:
+        vni: 10002
+        vlan: 102
+        irbv4: 10.10.20.1
+        irbmask: 24
+  blue:
+    l3vni: 20000
+    l2vni:
+      dmz:
+        vni: 20001
+        vlan: 201
+        irbv4: 10.20.10.1
+        irbmask: 24
+      internal:
+        vni: 20002
+        vlan: 202
+        irbv4: 10.20.20.1
+        irbmask: 24
