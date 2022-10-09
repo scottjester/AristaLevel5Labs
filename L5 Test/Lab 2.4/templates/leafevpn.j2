@@ -35,13 +35,13 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
     redistribute learned      
 !
 interface vlan {{ underlay['tenants']['red']['l2vni']['dmz']['vlan']}}
-  ip address virtual {{ underlay['tenants']['red']['l2vni']['dmz']['irbv4']}}
+  ip address virtual {{ underlay['tenants']['red']['l2vni']['dmz']['irbv4']}}/{{ underlay['tenants']['blue']['l2vni']['internal']['irbmask']}}  
 !  
 interface vlan {{ underlay['tenants']['red']['l2vni']['internal']['vlan']}}
-  ip address virtual {{ underlay['tenants']['red']['l2vni']['internal']['irbv4']}}
+  ip address virtual {{ underlay['tenants']['red']['l2vni']['internal']['irbv4']}}/{{ underlay['tenants']['blue']['l2vni']['internal']['irbmask']}}  
 !
 interface vlan {{ underlay['tenants']['blue']['l2vni']['dmz']['vlan']}}
-  ip address virtual {{ underlay['tenants']['blue']['l2vni']['dmz']['irbv4']}}
+  ip address virtual {{ underlay['tenants']['blue']['l2vni']['dmz']['irbv4']}}/{{ underlay['tenants']['blue']['l2vni']['internal']['irbmask']}}  
 !  
 interface vlan {{ underlay['tenants']['blue']['l2vni']['internal']['vlan']}}
-  ip address virtual {{ underlay['tenants']['blue']['l2vni']['internal']['irbv4']}}  
+  ip address virtual {{ underlay['tenants']['blue']['l2vni']['internal']['irbv4']}}/{{ underlay['tenants']['blue']['l2vni']['internal']['irbmask']}}    
