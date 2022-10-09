@@ -15,4 +15,4 @@
   # Use the eos_config module to create a task to upload the configuration you created to the switch
   - name: Upload config
     eos_config:
-      src: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}_interface.cfg"
+      src: "{{lookup('env','PWD')}}/configs/{{inventory_hostname}}_spine.cfg"
