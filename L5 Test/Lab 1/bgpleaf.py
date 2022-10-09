@@ -12,8 +12,7 @@ leaf1-DC1:
     - 10.1.0.101
     - 10.1.0.102
     - 10.1.0.103
-  leaf_peers:
-    - 10.1.0.12
+  leaf_peers: 10.1.0.12
   bgpasn: 65101  
 leaf2-DC1:
   interfaces:
@@ -25,8 +24,7 @@ leaf2-DC1:
     - 10.1.0.101
     - 10.1.0.102
     - 10.1.0.103
-  leaf_peers:
-    - 10.1.0.11
+  leaf_peers: 10.1.0.11
   bgpasn: 65101     
 leaf3-DC1:
   interfaces:
@@ -38,8 +36,7 @@ leaf3-DC1:
     - 10.1.0.101
     - 10.1.0.102
     - 10.1.0.103
-  leaf_peers:
-    - 10.1.0.14
+  leaf_peers: 10.1.0.14
   bgpasn: 65102  
 leaf4-DC1:
   interfaces:
@@ -51,8 +48,7 @@ leaf4-DC1:
     - 10.1.0.101
     - 10.1.0.102
     - 10.1.0.103
-  leaf_peers:
-    - 10.1.0.13
+  leaf_peers: 10.1.0.13
   bgpasn: 65102  
 borderleaf1-DC1:
   interfaces:
@@ -64,8 +60,7 @@ borderleaf1-DC1:
     - 10.1.0.101
     - 10.1.0.102
     - 10.1.0.103
-  leaf_peers:
-    - 10.1.0.22
+  leaf_peers: 10.1.0.22
   bgpasn: 65103  
 borderleaf2-DC1:
   interfaces:
@@ -77,8 +72,7 @@ borderleaf2-DC1:
     - 10.1.0.101
     - 10.1.0.102
     - 10.1.0.103
-  leaf_peers:
-    - 10.1.0.21
+  leaf_peers: 10.1.0.21
   bgpasn: 65103           
 """
 
@@ -107,7 +101,7 @@ print(" neighbor SPINE_Overlay maximum-routes 0")
 print(" neighbor SPINE_Overlay ebgp-multihop")
 for speer in switches[hostname]['spine_peers']:
 #Iterate through all spine peers
-  print("  %s peer group SPINE_Overlay" % speer)
+  print("  neighbor %s peer group SPINE_Overlay" % speer)
 print(" neighbor LEAF_Peer peer group")
 #leaf BGP ASN
 lbgpasn = switches[hostname]['bgpasn']
@@ -116,7 +110,7 @@ print(" neighbor LEAF_Peer next-hop-self")
 print(" neighbor LEAF_Peer maximum-routes 12000")
 #leaf BGP peer
 lpeer = switches[hostname]['leaf_peers']
-print(" %s peer group LEAF_Peer" % lpeer)
+print(" neighbor %s peer group LEAF_Peer" % lpeer)
 print(" redistribute connected route-map LOOPBACK")
 print(" address-family ipv4")
 print("  neighbor LEAF_Peer activate")

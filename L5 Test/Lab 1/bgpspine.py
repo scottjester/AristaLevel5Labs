@@ -30,7 +30,7 @@ print("peer-filter LEAF-AS-RANGE")
 print(" 10 match as-range 65000-65535 result accept")
 print("router bgp 65000")
 #Loopback0 IP  
-ip = switches[hostname]['interfaces']['loopback0']['ipv4']
+ip = switches[hostname]['loopback0']['ipv4']
 print(" router-id %s") % ip
 print(" no bgp default ipv4-unicast")
 print(" maximum-paths 3")
@@ -43,7 +43,7 @@ print("neighbor LEAF_Overlay ebgp-multihop")
 print(" redistribute connected route-map LOOPBACK")
 print(" address-family ipv4")
 print("  neighbor LEAF_Overlay activate")
-print("  redistribute connected route-map LOOPBACK)
+print("  redistribute connected route-map LOOPBACK")
 print(" address-family evpn")
 print("  bgp next-hop-unchanged")
 print("  neighbor LEAF_Overlay activate")
